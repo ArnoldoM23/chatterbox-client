@@ -1,19 +1,21 @@
 // YOUR CODE HERE:
-var message = {
-  username: 'Mel Brooks',
-  text: 'It\'s good to be the king',
-  roomname: 'lobby'
-}; 
 
-
-var app = {
-  init: function(){
+var app = Backbone.Model.extend({
+  initialize: function(username, roomName){
+    this.set({username: username, roomName: roomName})
+    if (roomName) {
+      this.set("roomName", roomName)
+    }
+    
+  },
+  defaults {
+    roomName: "lobby "
   },
   send: function(){
     $.ajax({
       url: 'https://api.parse.com/1/classes/chatterbox',
       type: 'POST',
-      data: JSON.stringify(message),
+      data: JSON.stringify(this.get("message", "username")),
       contentType: 'application/json',
       success: function (data) {
         console.log('chatterbox: Message sent');
@@ -25,7 +27,7 @@ var app = {
   },
   fetch: function(){
     $.ajax({
-      url: undefined,
+      url: "https://api.parse.com/1/classes/chatterbox",
       type: 'GET',
       data: JSON.stringify(message),
       contentType: 'application/json',
@@ -58,7 +60,18 @@ var app = {
   handleSubmit:function(){
     
   }
-} 
+});
+
+
+var messageVIew = Backbone.View.extend({
+  initialize: function(){
+
+  }
+})
+
+
+
+
 
 $(document).ready(function(){
   $('#send .submit').on('submit', function(){
