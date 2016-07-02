@@ -7,7 +7,6 @@
 
     <!-- dependencies -->
     <script src="bower_components/jquery/jquery.min.js"></script>
-    <script src="bower_components/backbone/backbone-min.js"></script>
     <script src="bower_components/underscore/underscore-min.js"></script>
     <!-- your scripts -->
     <script src="env/config.js"></script>
@@ -20,11 +19,13 @@
       <div id="rooms">
         Room:
         <select id="roomSelect">
+        <option>lobby</option>
+        <option class="newRoon">New Room</option>
         </select>
       </div>
       <form action="#" id="send" method="post">
-        <input type="text" name="message" id="message"/>
-        <input type="submit" name="submit" class="submit"/>
+        <input type="text" name="message" id="message" data="message"/>
+        <input type="submit" name="apple" class="submit"/>
       </form>
       <div id="chats"></div>
     </div>
