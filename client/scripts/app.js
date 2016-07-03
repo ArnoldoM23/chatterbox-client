@@ -3,7 +3,8 @@
 $(document).ready(function(){
   
   var No = function(message){
-    this.user = 'La NO';
+    this.user = window.location.search.slice(10);
+    // console.log(this.user)
     this.text = message;
     this.roomname = 'lobby';
   };
@@ -17,6 +18,18 @@ $(document).ready(function(){
     app.send(messages)
     $("#message").val("");
   });
+
+  $("select ").on('change',  function(e){
+    if (e.target["1"].className === "newRoom"){
+      var roomName = prompt("Write a room name")
+      app.addRoom(roomName)
+    };
+    console.log(e)
+  })
+  $('button').on('click', function(e){
+    e.preventDefault();
+    app.clearMessages();
+  })
 
   var app = {
     init: function(){
@@ -40,13 +53,14 @@ $(document).ready(function(){
       $.ajax({
         url: 'https://api.parse.com/1/classes/chatterbox',
         type: 'GET',
-        data: JSON.stringify(message),
         contentType: 'application/json',
+        data: {order: '-createdAt'},
         success: function (data) {
-          console.log('chatterbox: Message recived');
-          _.each(data.results, function(obj){
-            app.addMessage(obj)
-          })
+          console.log('chatterbox: Message recived', data);
+          
+            for (var i = data.results.length - 1; i >= 0; i--) {
+             app.addMessage(data.results[i]);
+            };
         },
         error: function (data) {
           console.error('chatterbox: Failed to fetch message');
